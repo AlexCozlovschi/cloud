@@ -6,10 +6,10 @@ name: cloudappdeploy
     workflow_dispatch: {}
 env:
     ACR_RESOURCE_GROUP: prasada
-    AZURE_CONTAINER_REGISTRY: acrworkflow1716641034975
+    AZURE_CONTAINER_REGISTRY: CloudAppPrasada
     CLUSTER_NAME: CloudApp
     CLUSTER_RESOURCE_GROUP: prasada
-    CONTAINER_NAME: image-workflow-1716641034975
+    CONTAINER_NAME: cloudapp
     DEPLOYMENT_MANIFEST_PATH: |
         manifests/deployment.yaml
         manifests/service.yaml
@@ -62,4 +62,4 @@ jobs:
                 action: deploy
                 images: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
                 manifests: ${{ env.DEPLOYMENT_MANIFEST_PATH }}
-                namespace: namespace-workflow-1716641034975
+                namespace: prasada

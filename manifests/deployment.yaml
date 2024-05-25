@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
         - name: cloudappdeploy
-          image: cloudappprasada.azurecr.io/image-workflow-1716639362659:latest
+          image: cloudappprasada.azurecr.io/image-workflow-1716640857980:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 3000

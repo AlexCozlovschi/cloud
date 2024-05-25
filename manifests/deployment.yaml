@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudappdeploy
+  labels:
+    app: cloudappdeploy
+  namespace: prasada
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudappdeploy
+  template:
+    metadata:
+      labels:
+        app: cloudappdeploy
+    spec:
+      containers:
+        - name: cloudappdeploy
+          image: acrworkflow1716639362659.azurecr.io/image-workflow-1716639362659:latest
+          ports:
+            - containerPort: 8080

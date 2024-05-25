@@ -4,7 +4,7 @@ metadata:
   name: cloudappdeploy
   labels:
     app: cloudappdeploy
-  namespace: prasada
+  namespace: namespace-workflow-1716641034975
 spec:
   replicas: 1
   selector:
@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
         - name: cloudappdeploy
-          image: cloudappprasada.azurecr.io/image-workflow-1716640857980:latest
+          image: acrworkflow1716641034975.azurecr.io/image-workflow-1716641034975:latest
           ports:
             - containerPort: 3000

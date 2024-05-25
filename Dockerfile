@@ -1,13 +1,36 @@
-FROM clojure as BUILD
-COPY . /usr/src/app
-WORKDIR /usr/src/app
-RUN lein ring uberjar
+# Use the OpenJDK 17 JDK slim base image
+FROM openjdk:17-jdk-slim
 
-FROM eclipse-temurin:17-jdk-alpine
+# Copy the application files into the container
+COPY . /app
 
-RUN apk update && apk upgrade && apk add bash
-ENV PORT 8080
-EXPOSE 8080
-COPY --from=BUILD /usr/src/app/target/*.jar /opt/
-WORKDIR /opt
-CMD ["/bin/bash", "-c", "find -type f -name '*standalone.jar' | xargs java -jar"]
+# Set the working directory to /app
+WORKDIR /app
+
+# Ensure gradlew has Unix line endings
+RUN apt-get update && apt-get install -y dos2unix && dos2unix gradlew
+
+# Make gradlew executable
+RUN chmod +x gradlew
+
+# List files for debugging purposes
+RUN ls
+
+# Run the Gradle wrapper to build the jar file
+RUN ./gradlew bootJar
+
+# Use the OpenJDK 17 JDK slim base image again for the final stage
+FROM openjdk:17-jdk-slim
+
+# Copy the built jar file from the first stage
+COPY --from=0 /app/build/libs/cloud-app-0.0.1-SNAPSHOT.jar /app.jar
+
+ENTRYPOINT ["java","-jar","/app.jar"]
+# Set the entry point to run the jar file
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+#docker build -t cloud-app:latest .
+#docker run -it --name prasada cloud-app:latest
+#docker run -it --name prasada -p 8080:8080 cloud-app:latest
+#docker stop prasada
+#docker rm prasda
